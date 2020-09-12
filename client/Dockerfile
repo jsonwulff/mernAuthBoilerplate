@@ -1,17 +1,12 @@
-# Get the base node image
 FROM node
-
-# Set the working dir for container
+# Create app directory
 WORKDIR /usr/src/app
-
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
-
-# Install npm dependencies
+COPY package*.json /usr/src/app/
+# Install app dependencies
 RUN npm install
-
-# Copy other project files
-COPY . .
+# Bundle app source
+COPY . /usr/src/app/
 
 EXPOSE 3000
 
