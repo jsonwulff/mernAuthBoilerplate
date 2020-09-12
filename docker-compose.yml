@@ -4,11 +4,14 @@ services:
     backend:
         container_name: backend
         build: ./backend
+        restart: unless-stopped
         ports:
             - 5000:5000
         command: npm run dev # Used for running backend with nodemon
         environment:
-            - TESTVAR=${TESTVAR}
+            TESTVAR: $TESTVAR
+            MONGO_USER: $MONGO_USER
+            MONGO_PASS: $MONGO_PASS
         volumes:
             - ./backend:/app
         depends_on: 
@@ -17,6 +20,7 @@ services:
     client:
         container_name:  client
         build: ./client
+        restart: unless-stopped
         ports:
             - 3000:3000
         stdin_open: true # React container fails without this
@@ -30,21 +34,26 @@ services:
     mongo:
         container_name: mongo
         image: mongo
-        restart: always
+        restart: unless-stopped
         ports: 
             - 27012:27017 # Used for connection with MongoDb Compass
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
+            MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+            MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASS
+        volumes: 
+            - mongo:/data/db
     
     mongo-express:
         container_name: mongo-express
         image: mongo-express
-        restart: always
+        restart: unless-stopped
         ports:
             - 8081:8081
         depends_on: 
             - mongo
         environment:
-            ME_CONFIG_MONGODB_ADMINUSERNAME: root
-            ME_CONFIG_MONGODB_ADMINPASSWORD: example
+            ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_USER
+            ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_PASS
+
+volumes:
+    mongo:
