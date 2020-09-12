@@ -2,13 +2,21 @@ version: '3'
     
 services:
     backend:
+        container_name: backend
         build: ./backend
         ports:
             - 5000:5000
-        command: npm run dev
+        command: npm run dev # Used for running backend with nodemon
+        environment:
+            - TESTVAR=${TESTVAR}
+        volumes:
+            - ./backend:/app
 
     client:
+        container_name:  client
         build: ./client
         ports:
             - 3000:3000
-        stdin_open: true
+        stdin_open: true # React container fails without this
+        volumes:
+            - ./client:/app
