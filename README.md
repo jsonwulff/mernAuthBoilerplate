@@ -1,5 +1,9 @@
 # BachelorProject
 
+## To Do
+- [ ] Add MongoDB to the stack
+- [ ] Add login functionality to the API
+
 ## Articles used for setting up docker development enviroment
 
 - [Dockerize MERN Stack Application](https://medium.com/@pramodrana2107/dockerize-mern-stack-application-9ea8de68ea4e)
