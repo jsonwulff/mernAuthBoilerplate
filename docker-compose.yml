@@ -23,7 +23,8 @@ services:
 
     # Connection String:
     # mongodb://root:example@localhost:27012
-    mongo:
+    db:
+        container_name: db
         image: mongo
         restart: always
         ports: 
@@ -33,6 +34,7 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: example
     
     mongo-express:
+        container_name: mongo-express
         image: mongo-express
         restart: always
         ports:
