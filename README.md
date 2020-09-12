@@ -1,6 +1,6 @@
 # BachelorProject
 
-## Used articles
+## Articles used for setting up docker development enviroment
 
 - [Dockerize MERN Stack Application](https://medium.com/@pramodrana2107/dockerize-mern-stack-application-9ea8de68ea4e)
 - [DOCKER - How To Resolve _"react exited with code 0"_](https://dev.to/igmrrf/docker-react-exited-with-code-0-398n)
