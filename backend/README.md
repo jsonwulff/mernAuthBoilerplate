@@ -2,19 +2,20 @@
 
 ## Response Codes
 
-```
+```txt
 200: Success
 400: Bad request
 401: Unauthorized
 404: Cannot be found
 405: Method not allowed
-422: Unprocessable Entity 
+422: Unprocessable Entity
 50X: Server Error
 ```
 
 ## Auth
 
 ### Sign up
+
 Sign up a new user.
 
 **URL**: `/api/signup`
@@ -27,7 +28,7 @@ Sign up a new user.
 
 #### Data constraints
 
-```
+```json
 {
     "name": "John Doe",
     "email": "example@gmail.com",
