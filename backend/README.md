@@ -36,6 +36,8 @@ Sign up a new user.
 ```
 
 ## Examples of API's
+
+- [Toggl API](https://github.com/toggl/toggl_api_docs/blob/master/chapters/authentication.md)
 - [API Documentation Example](https://gist.github.com/Simonwep/bfb3bff51e9679c0af6f3ce3cd1404db)
 - [REST API docs - put](https://github.com/jamescooke/restapidocs/blob/master/examples/user/put.md)
 - [REST API docs - get](https://github.com/jamescooke/restapidocs/blob/master/examples/user/get.md)
