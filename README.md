@@ -18,8 +18,7 @@
 - [ ] Add password reset
 - [ ] Add validation to signup
 - [ ] Consider to encrypt password before signing it with JWT
-- [ ] Consider movin the activate token from url to body
-
+- [ ] Consider moving the activation token from [url request to body request](https://medium.com/better-programming/using-url-parameters-and-query-strings-with-react-router-fffdcea7a8e9)
 ## Models
 
 User
