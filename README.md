@@ -4,8 +4,9 @@
 - [X] Add MongoDB to the stack
 - [ ] Add login functionality to the API
 - [X] Consider using .env variables
-- [ ] Create a simple user api route
-- [ ] Put the models in a table
+- [X] Create a simple user api route
+- [ ] Add password encryption from mernProject
+- [ ] Put the models in a table (In this README)
 
 ## Models
 User
