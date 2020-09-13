@@ -1,26 +1,37 @@
 # BachelorProject
 
 ## To Do
+
 - [X] Add MongoDB to the stack
 - [ ] Add login functionality to the API
 - [X] Consider using .env variables
 - [X] Create a simple user api route
-- [ ] Add password encryption from mernProject
+- [X] Add password encryption from mernProject
 - [ ] Add validation to signup fields
 - [ ] Put the models in a table (In this README)
 
 ### Login / Auth todos
+
 - [X] Encrypt password
 - [ ] Create login route
-- [ ] Add email confirmation
+- [X] Add email confirmation
 - [ ] Add password reset
 - [ ] Add validation to signup
+- [ ] Consider to encrypt password before signing it with JWT
+- [ ] Consider movin the activate token from url to body
 
 ## Models
+
 User
+
 - name  string required
 - email string required
 - password string required
+
+## Articles/videos used for login
+
+- [Using JWT (JSON Web Tokens) to authorize users and protect API routes](https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e)
+- [Email Account Verification - Node and Express](https://www.youtube.com/watch?v=CEim3tZsp1Y&t=11s)
 
 ## Articles used for setting up docker development enviroment
 
