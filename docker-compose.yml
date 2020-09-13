@@ -9,9 +9,9 @@ services:
             - 5000:5000
         command: npm run dev # Used for running backend with nodemon
         environment:
-            TESTVAR: $TESTVAR
             MONGO_USER: $MONGO_USER
             MONGO_PASS: $MONGO_PASS
+            SENDGRID_API_KEY: $SENDGRID_API_KEY
         volumes:
             - ./backend:/app
         depends_on: 
