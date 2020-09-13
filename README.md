@@ -6,7 +6,15 @@
 - [X] Consider using .env variables
 - [X] Create a simple user api route
 - [ ] Add password encryption from mernProject
+- [ ] Add validation to signup fields
 - [ ] Put the models in a table (In this README)
+
+### Login / Auth todos
+- [X] Encrypt password
+- [ ] Create login route
+- [ ] Add email confirmation
+- [ ] Add password reset
+- [ ] Add validation to signup
 
 ## Models
 User
