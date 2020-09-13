@@ -4,7 +4,14 @@
 - [X] Add MongoDB to the stack
 - [ ] Add login functionality to the API
 - [X] Consider using .env variables
-- [ ]
+- [ ] Create a simple user api route
+- [ ] Put the models in a table
+
+## Models
+User
+- name  string required
+- email string required
+- password string required
 
 ## Articles used for setting up docker development enviroment
 
