@@ -28,12 +28,11 @@
 - [Using cookies to store JWT for authentication and authorization in a MERN stack app](https://medium.com/@zahedialfurquan20/using-cookies-to-store-jwt-for-authentication-and-authorization-in-a-mern-stack-app-a58d7a5d6b6e)
 - [Guide: Email Verification (with JWT & Sendgrid) using MERN stack with Redux — 2019](https://medium.com/@arthurtruong.work/guide-email-verification-with-jwt-sendgrid-using-mern-stack-with-redux-2019-f8129bb2271f)
 - [MERN Sessions-Based Login and Registration App Part One : Node.JS, Express and MongDB REST API Backend](https://shawndsilva.com/blog/web-development/MERN-Sessions-Authentication-App-Part-1-Nodejs-and-Express-Backend.html)
-- [Mastering Session Authentication](https://itnext.io/mastering-session-authentication-aa29096f6e22) 
+- [Mastering Session Authentication](https://itnext.io/mastering-session-authentication-aa29096f6e22)
 
 #### Frontend
 
 - [Protected routes and authentication with React Router v4](https://ui.dev/react-router-v4-protected-routes-authentication/)
--
 
 ## Models
 
