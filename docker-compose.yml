@@ -10,6 +10,7 @@ services:
         command: npm run dev # Used for running backend with nodemon
         environment:
             CLIENT_URL: $CLIENT_URL
+            PORT: $PORT
             MONGO_USER: $MONGO_USER
             MONGO_PASS: $MONGO_PASS
             SENDGRID_API_KEY: $SENDGRID_API_KEY
