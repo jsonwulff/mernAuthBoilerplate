@@ -16,6 +16,7 @@ services:
             SENDGRID_API_KEY: $SENDGRID_API_KEY
             SENDER_EMAIL: $SENDER_EMAIL
             JWT_SIGNUP_SECRET: $JWT_SIGNUP_SECRET
+            JWT_AUTH_SECRET: $JWT_AUTH_SECRET
         volumes:
             - ./backend:/app
         depends_on: 

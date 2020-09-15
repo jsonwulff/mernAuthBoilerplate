@@ -6,6 +6,7 @@ const sgMail = require('@sendgrid/mail');
 const {
   SENDGRID_API_KEY,
   JWT_SIGNUP_SECRET,
+  JWT_AUTH_SECRET,
   SENDER_EMAIL,
   CLIENT_URL,
 } = process.env;
@@ -14,7 +15,6 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 
 // Sign up - send activation email
 exports.signup = (req, res) => {
-  console.log(req.body);
   const { name, email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
@@ -59,7 +59,8 @@ exports.signup = (req, res) => {
                 return res.json({ Error: err });
               }
               return res.json({
-                message: 'Signup succesfull. An Email has been sent, kindly activate your account',
+                message:
+                  'Signup succesfull. An Email has been sent, kindly activate your account',
               });
             });
           });
@@ -82,13 +83,15 @@ exports.activateAccount = (req, res) => {
       const { id } = decodedToken;
       User.findByIdAndUpdate(id)
         .then((user) => {
-          if(user.confirmed === ture){
-            return res.status(400).json({Error: "Email has already been confirmed"})
+          if (user.confirmed === ture) {
+            return res
+              .status(400)
+              .json({ Error: 'Email has already been confirmed' });
           }
-          user.confirmed = true
+          user.confirmed = true;
           user
             .save()
-            .then(() => res.json({message: "Email was confirmed"}))
+            .then(() => res.json({ message: 'Email was confirmed' }))
             .catch((err) => res.status(400).json({ Error: err }));
         })
         .catch((err) => res.json({ Error: err }));
@@ -96,4 +99,29 @@ exports.activateAccount = (req, res) => {
   } else {
     return res.status(400).json({ Error: 'Token was missing' });
   }
+};
+
+// Login
+exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({ Error: 'User not found' });
+      }
+
+      bcrypt.compare(password, user.password).then((isMatch) => {
+        if (!isMatch) {
+          return res.status(400).json({ Error: 'Incorrect password' });
+        }
+        const payload = {
+          id: user.id,
+          name: user.name,
+        };
+        authToken = jwt.sign(payload, JWT_AUTH_SECRET, { expiresIn: '1d' });
+        res.json({ authToken: 'Bearer ' + authToken });
+      });
+    })
+    .catch((err) => res.json({ Error: err }));
 };
