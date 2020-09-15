@@ -2,9 +2,15 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const jwtSignupSecret = process.env.JWT_SIGNUP_SECRET;
+const {
+  SENDGRID_API_KEY,
+  JWT_SIGNUP_SECRET,
+  SENDER_EMAIL,
+  CLIENT_URL,
+} = process.env;
+
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 // Sign up - send activation email
 exports.signup = (req, res) => {
@@ -18,27 +24,45 @@ exports.signup = (req, res) => {
           .json({ Error: 'User with this email already exists.' });
       }
 
-      const token = jwt.sign({ name, email, password }, jwtSignupSecret, {
-        expiresIn: '20m',
-      });
+      // Create User
+      const newUser = new User({ name, email, password });
+      // Hash Password  before saving in database
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) {
+            console.log('Error hashing the password: ', err);
+          }
+          // Save user
+          newUser.password = hash;
+          newUser.save((err, user) => {
+            if (err) {
+              console.log('Error in signup', err);
+              return res.status(400).json({ Error: err });
+            }
+            const token = jwt.sign({ id: user._id }, JWT_SIGNUP_SECRET, {
+              expiresIn: '1d',
+            });
 
-      const msg = {
-        to: 'julianwulff@gmail.com', // ! This should be changed - only for testing purposes
-        from: `${process.env.SENDER_EMAIL}`, // ! This should be change - only for testing purposes
-        subject: 'Account Activation Link',
-        text: `and easy to do anywhere, even with Node.js`,
-        html: `
-          <h2>Please click on the given link to activate your account</h2>
-          <p>${process.env.CLIENT_URL}/authenticate/activate/${token}</p>
-          `,
-      };
+            const msg = {
+              to: 'julianwulff@gmail.com', // ! This should be changed - only for testing purposes
+              from: `${SENDER_EMAIL}`, // ! This should be change - only for testing purposes
+              subject: 'Account Activation Link',
+              text: `Please click on the given link to activate your account: ${CLIENT_URL}/authenticate/activate/${token}`,
+              html: `
+                <h2>Please click on the given link to activate your account</h2>
+                <p>${CLIENT_URL}/authenticate/activate/${token}</p>
+                `,
+            };
 
-      sgMail.send(msg, (err, result) => {
-        if (err) {
-          return res.json({ Error: err });
-        }
-        return res.json({
-          message: 'Email has been sent, kindly activate your account',
+            sgMail.send(msg, (err, result) => {
+              if (err) {
+                return res.json({ Error: err });
+              }
+              return res.json({
+                message: 'Signup succesfull. An Email has been sent, kindly activate your account',
+              });
+            });
+          });
         });
       });
     })
@@ -50,42 +74,22 @@ exports.activateAccount = (req, res) => {
   const token = req.params.token;
 
   if (token) {
-    jwt.verify(token, jwtSignupSecret, (err, decodedToken) => {
+    jwt.verify(token, JWT_SIGNUP_SECRET, (err, decodedToken) => {
       if (err) {
         return res.status(400).json({ Error: 'Incorrect or expired link.' });
       }
 
-      const { name, email, password } = decodedToken;
-      User.findOne({ email })
+      const { id } = decodedToken;
+      User.findByIdAndUpdate(id)
         .then((user) => {
-          if (user) {
-            return res
-              .status(400)
-              .json({ Error: 'User with this email already exists.' });
+          if(user.confirmed === ture){
+            return res.status(400).json({Error: "Email has already been confirmed"})
           }
-
-          const newUser = new User({ name, email, password });
-
-          // Hash Password  before saving in database
-          bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              if (err) {
-                console.log('Error hashing the password: ', err);
-              }
-
-              newUser.password = hash;
-              newUser.save((err, user) => {
-                if (err) {
-                  console.log('Error in signup', err);
-                  return res.status(400).json({ Error: err });
-                }
-                res.json({
-                  message: 'Signup successfull',
-                  user,
-                });
-              });
-            });
-          });
+          user.confirmed = true
+          user
+            .save()
+            .then(() => res.json({message: "Email was confirmed"}))
+            .catch((err) => res.status(400).json({ Error: err }));
         })
         .catch((err) => res.json({ Error: err }));
     });
