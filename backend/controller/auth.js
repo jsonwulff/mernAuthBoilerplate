@@ -83,7 +83,7 @@ exports.activateAccount = (req, res) => {
       const { id } = decodedToken;
       User.findByIdAndUpdate(id)
         .then((user) => {
-          if (user.confirmed === ture) {
+          if (user.confirmed === true) {
             return res
               .status(400)
               .json({ Error: 'Email has already been confirmed' });
