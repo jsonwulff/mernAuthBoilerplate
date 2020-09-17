@@ -21,14 +21,15 @@
 - [X] Add validation to signup
 - [ ] Consider moving the activation token from [url request to body request](https://medium.com/better-programming/using-url-parameters-and-query-strings-with-react-router-fffdcea7a8e9)
 - [X] Changes signup flow such that the user i created at signup and the jwt token link does not contain the password.
-- [ ] Save auth/jwt token in safe http cookie
-- [ ] Restructure the passport stratigy
+- [ ] [Save auth/jwt token in safe http cookie](https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81)
+- [ ] Restructure the passport stratigy - move from middleware
 
+##### Articles
+
+- [Node.js passport-jwt how to send token in a cookie?](https://stackoverflow.com/questions/39163413/node-js-passport-jwt-how-to-send-token-in-a-cookie)
+- [How to restrict access using Passport.js role-based authorisation](https://developerhandbook.com/passport.js/passport-role-based-authorisation-authentication/)
 - [Sessionless Authentication using JWTs (with Node + Express + Passport JS)](https://blog.usejournal.com/sessionless-authentication-withe-jwts-with-node-express-passport-js-69b059e4b22c)
 - [Using cookies to store JWT for authentication and authorization in a MERN stack app](https://medium.com/@zahedialfurquan20/using-cookies-to-store-jwt-for-authentication-and-authorization-in-a-mern-stack-app-a58d7a5d6b6e)
-- [Guide: Email Verification (with JWT & Sendgrid) using MERN stack with Redux — 2019](https://medium.com/@arthurtruong.work/guide-email-verification-with-jwt-sendgrid-using-mern-stack-with-redux-2019-f8129bb2271f)
-- [MERN Sessions-Based Login and Registration App Part One : Node.JS, Express and MongDB REST API Backend](https://shawndsilva.com/blog/web-development/MERN-Sessions-Authentication-App-Part-1-Nodejs-and-Express-Backend.html)
-- [Mastering Session Authentication](https://itnext.io/mastering-session-authentication-aa29096f6e22)
 
 #### Frontend
 
