@@ -34,6 +34,7 @@
 #### Frontend
 
 - [ ] Consider dropping all the logic from App and paste it into index
+- [X] Consider moving rootReducer into its own file
 
 - [Structure of react redux library](https://www.pluralsight.com/guides/how-to-organize-your-react-+-redux-codebase)
 - [Protected routes and authentication with React Router v4](https://ui.dev/react-router-v4-protected-routes-authentication/)
