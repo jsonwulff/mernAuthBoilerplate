@@ -107,21 +107,21 @@ exports.login = (req, res) => {
 
   User.findOne({ email })
     .then((user) => {
-      if (!user) {
-        return res.status(400).json({ Error: 'User not found' });
-      }
+      if (!user) return res.status(400).json({ Error: 'User not found' });
 
-      bcrypt.compare(password, user.password).then((isMatch) => {
-        if (!isMatch) {
-          return res.status(400).json({ Error: 'Incorrect password' });
-        }
-        const payload = {
-          id: user.id,
-          name: user.name,
-        };
-        authToken = jwt.sign(payload, JWT_AUTH_SECRET, { expiresIn: '1d' });
-        res.json({ authToken: 'Bearer ' + authToken });
-      });
+      bcrypt.compare(password, user.password)
+        .then((isMatch) => {
+          if (!isMatch) return res.status(400).json({ Error: 'Incorrect password' });
+    
+          const payload = {
+            id: user.id,
+            name: user.name,
+          };
+          token = jwt.sign(payload, JWT_AUTH_SECRET, { expiresIn: '1d' });
+          res
+            .cookie("token", token, { httpOnly: true })
+            .json({ message: 'Login sucessfull'});
+        });
     })
     .catch((err) => res.json({ Error: err }));
 };
