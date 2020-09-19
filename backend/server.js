@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const auth = require('./routes/auth');
-const newAuth = require('./routes/newAuth');
 const user = require('./routes/user');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
@@ -28,7 +27,6 @@ mongoose
 
 // Routes
 app.use('/api', auth);
-app.use('/api', newAuth);
 // Protected routes
 app.use('/api/user', passport.authenticate('jwt', { session: false }), user);
 
