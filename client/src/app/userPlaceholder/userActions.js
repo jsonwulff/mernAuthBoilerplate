@@ -22,7 +22,7 @@ export const fetchUsers = () => {
 
 export const fetchUsersRequest = () => {
   return {
-    type: FETCH_USERS_REQUEST,
+    type: FETCH_USERS_REQUEST
   };
 };
 

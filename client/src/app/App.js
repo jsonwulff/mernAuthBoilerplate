@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux"
 import store from "../store"
 
-import Header from "./Header"
-import AuthLogin from "../auth/AuthLogin"
-import UsersContainer from "../userPlaceholder/user"
+import Header from "./common/Header"
+import AuthLogin from "./auth/AuthLogin"
+import UsersContainer from "./userPlaceholder/user"
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 function App() {
