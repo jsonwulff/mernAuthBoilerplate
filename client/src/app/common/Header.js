@@ -31,17 +31,19 @@ export default function Header() {
       className={classes.appBar}
     >
       <Toolbar>
-        <Typography
+        <Link
+          href="/"
           variant="h6"
           color="inherit"
           noWrap
           className={classes.toolbarTitle}
+          // component={Typography}
         >
           e-Xercise
-        </Typography>
+        </Link>
         <nav>
           <Link
-            to="#"
+            to="/signup"
             variant="button"
             color="textPrimary"
             component={NavLink}
@@ -51,7 +53,7 @@ export default function Header() {
             Sign up
           </Link>
           <Button
-            to="/Login"
+            to="/login"
             variant="outlined"
             color="primary"
             component={NavLink}
