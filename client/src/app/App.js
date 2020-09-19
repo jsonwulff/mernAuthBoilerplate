@@ -5,6 +5,7 @@ import store from "../store"
 
 import Header from "./Header"
 import AuthLogin from "../auth/AuthLogin"
+import UsersContainer from "../userPlaceholder/user"
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
         <CssBaseline />
         <Header />
         <Switch>
-          <Route exact path="/login" component={AuthLogin} />
-          <Route path="*"></Route> {/* 404 no match */}
+          <UsersContainer />
+          {/* <Route exact path="/login" component={AuthLogin} />
+          <Route path="*"></Route> 404 no match */}
         </Switch>
       </Router>
     </Provider>
