@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { loginUser } from './LoginActions';
 import {
   Button,
   Grid,
@@ -47,13 +49,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AuthLogin() {
+function Login({ loginError, loginUser }) {
   const classes = useStyles();
+
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    loginUser(values);
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={4} md={7} lg={9} className={classes.image} />
       <Grid
         container
+        item
         alignItems="center"
         xs={12}
         sm={8}
@@ -70,8 +89,9 @@ export default function AuthLogin() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
+              onChange={onChange}
               variant="outlined"
               margin="normal"
               required
@@ -83,6 +103,7 @@ export default function AuthLogin() {
               autoFocus
             />
             <TextField
+              onChange={onChange}
               variant="outlined"
               margin="normal"
               required
@@ -124,3 +145,17 @@ export default function AuthLogin() {
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    loginError: state.login.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (loginData) => dispatch(loginUser(loginData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
