@@ -19,9 +19,7 @@ exports.signup = (req, res) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        return res
-          .status(400)
-          .json({ Error: 'User with this email already exists.' });
+        return res.status(400).json({ email: 'Email already exists' });
       }
 
       // Create User
@@ -109,19 +107,19 @@ exports.login = (req, res) => {
     .then((user) => {
       if (!user) return res.status(400).json({ Error: 'User not found' });
 
-      bcrypt.compare(password, user.password)
-        .then((isMatch) => {
-          if (!isMatch) return res.status(400).json({ Error: 'Incorrect password' });
-    
-          const payload = {
-            id: user.id,
-            name: user.name,
-          };
-          token = jwt.sign(payload, JWT_AUTH_SECRET, { expiresIn: '1d' });
-          res
-            .cookie("token", token, { httpOnly: true })
-            .json({ message: 'Login sucessfull'});
-        });
+      bcrypt.compare(password, user.password).then((isMatch) => {
+        if (!isMatch)
+          return res.status(400).json({ Error: 'Incorrect password' });
+
+        const payload = {
+          id: user.id,
+          name: user.name,
+        };
+        token = jwt.sign(payload, JWT_AUTH_SECRET, { expiresIn: '1d' });
+        res
+          .cookie('token', token, { httpOnly: true })
+          .json({ message: 'Login sucessfull' });
+      });
     })
     .catch((err) => res.json({ Error: err }));
 };
