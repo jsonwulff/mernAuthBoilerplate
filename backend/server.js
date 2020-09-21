@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+// const cors = require('cors');
 const auth = require('./routes/auth');
 const user = require('./routes/user');
 const passport = require('passport');
@@ -10,6 +11,7 @@ const app = express();
 
 // Middelware
 app.use(express.json());
+// app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
 require('./middleware/passport')(passport);
