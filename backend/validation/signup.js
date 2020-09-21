@@ -4,13 +4,6 @@ const isEmpty = require('is-empty');
 module.exports = function validateSignUpInput(data) {
   let errors = {};
 
-  // Convert empty fields to an empty string so we can use validator functions
-  // data.firstName = data.firstName ? data.firstName : '';
-  // data.lastName = data.firstName ? data.firstName : '';
-  // data.email = data.email ? data.email : '';
-  // data.password = data.password ? data.password : '';
-  // data.password2 = data.password2 ? data.password2 : '';
-
   if (Validator.isEmpty(data.firstName)) {
     errors.firstName = 'Firstname field is required';
   }
