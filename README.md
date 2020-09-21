@@ -2,11 +2,11 @@
 
 ## To Do
 
-- [X] Add MongoDB to the stack
-- [X] Add login functionality to the API
-- [X] Consider using .env variables
-- [X] Create a simple user api route
-- [X] Add password encryption from mernProject
+- [x] Add MongoDB to the stack
+- [x] Add login functionality to the API
+- [x] Consider using .env variables
+- [x] Create a simple user api route
+- [x] Add password encryption from mernProject
 - [ ] Add validation to signup fields
 - [ ] Put the models in a table (In this README)
 
@@ -14,14 +14,13 @@
 
 #### Backend
 
-- [X] Encrypt password
-- [X] Create login route
-- [X] Add email confirmation
+- [x] Encrypt password
+- [x] Create login route
+- [x] Add email confirmation
 - [ ] Add password reset
-- [X] Add validation to signup
-- [ ] Consider moving the activation token from [url request to body request](https://medium.com/better-programming/using-url-parameters-and-query-strings-with-react-router-fffdcea7a8e9)
-- [X] Changes signup flow such that the user i created at signup and the jwt token link does not contain the password.
-- [ ] [Save auth/jwt token in safe http cookie](https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81)
+- [x] Add validation to signup
+- [x] Changes signup flow such that the user i created at signup and the jwt token link does not contain the password.
+- [x] [Save auth/jwt token in safe http cookie](https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81)
 - [ ] Restructure the passport stratigy - move from middleware
 
 ##### Articles
@@ -34,7 +33,7 @@
 #### Frontend
 
 - [ ] Consider dropping all the logic from App and paste it into index
-- [X] Consider moving rootReducer into its own file
+- [x] Consider moving rootReducer into its own file
 
 - [Protected routes and authentication with React Router v4](https://ui.dev/react-router-v4-protected-routes-authentication/)
 
@@ -46,7 +45,7 @@
 
 User
 
-- name  string required
+- name string required
 - email string required
 - password string required
 

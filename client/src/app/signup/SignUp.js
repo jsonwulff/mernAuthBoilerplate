@@ -72,6 +72,10 @@ function SignUp({ signUp, signUpUser }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                error={signUp.error.firstName ? true : false}
+                helperText={
+                  signUp.error.firstName ? signUp.error.firstName : false
+                }
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -85,6 +89,10 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                error={signUp.error.lastName ? true : false}
+                helperText={
+                  signUp.error.lastName ? signUp.error.lastName : false
+                }
                 variant="outlined"
                 required
                 fullWidth
@@ -111,6 +119,10 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={signUp.error.password ? true : false}
+                helperText={
+                  signUp.error.password ? signUp.error.password : false
+                }
                 variant="outlined"
                 required
                 fullWidth
@@ -124,6 +136,10 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={signUp.error.password2 ? true : false}
+                helperText={
+                  signUp.error.password2 ? signUp.error.password2 : false
+                }
                 variant="outlined"
                 required
                 fullWidth
