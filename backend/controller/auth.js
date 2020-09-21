@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
 
 const validateSignUpInput = require('../validation/signup');
+const validateLoginInput = require('../validation/login');
 
 const {
   SENDGRID_API_KEY,
@@ -108,15 +109,23 @@ exports.activateAccount = (req, res) => {
 
 // Login
 exports.login = (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const { email, password } = req.body;
 
   User.findOne({ email })
     .then((user) => {
-      if (!user) return res.status(400).json({ Error: 'User not found' });
+      if (!user)
+        return res
+          .status(400)
+          .json({ email: 'User with that email not found' });
 
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch)
-          return res.status(400).json({ Error: 'Incorrect password' });
+          return res.status(400).json({ password: 'Incorrect password' });
 
         const payload = {
           id: user.id,
