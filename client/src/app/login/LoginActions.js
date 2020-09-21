@@ -13,6 +13,7 @@ export const loginUser = (loginData, history) => {
       .then((res) => {
         const successMessage = res.data;
         dispatch(postLoginSucces(successMessage));
+        history.push('/');
       })
       .catch((err) => {
         const failuresMessages = err.response.data;
@@ -35,7 +36,7 @@ export const postLoginSucces = () => {
 
 export const postLoginFailure = (err) => {
   return {
-    typee: POST_LOGIN_FAILURE,
+    type: POST_LOGIN_FAILURE,
     payload: err,
   };
 };

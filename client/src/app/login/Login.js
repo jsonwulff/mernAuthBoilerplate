@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { loginUser } from './LoginActions';
 import {
   Button,
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ loginError, loginUser }) {
   const classes = useStyles();
+  const history = useHistory();
 
   const [values, setValues] = useState({
     email: '',
@@ -64,7 +66,7 @@ function Login({ loginError, loginUser }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    loginUser(values);
+    loginUser(values, history);
   };
 
   return (
@@ -92,6 +94,8 @@ function Login({ loginError, loginUser }) {
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               onChange={onChange}
+              error={loginError.email ? true : false}
+              helperText={loginError.email ? loginError.email : false}
               variant="outlined"
               margin="normal"
               required
@@ -103,6 +107,8 @@ function Login({ loginError, loginUser }) {
               autoFocus
             />
             <TextField
+              error={loginError.password ? true : false}
+              helperText={loginError.password ? loginError.password : false}
               onChange={onChange}
               variant="outlined"
               margin="normal"
@@ -154,7 +160,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (loginData) => dispatch(loginUser(loginData)),
+    loginUser: (loginData, history) => dispatch(loginUser(loginData, history)),
   };
 };
 
