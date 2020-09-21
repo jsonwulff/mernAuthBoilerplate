@@ -51,14 +51,13 @@ function SignUp({ signUp, signUpUser }) {
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
-    console.log(name, ' ', value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // const { firstName, lastName, email, password, password2 } = values;
     signUpUser(values);
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
