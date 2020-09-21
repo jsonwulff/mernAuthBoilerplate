@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
 
+const validateSignUpInput = require('../validation/signup');
+
 const {
   SENDGRID_API_KEY,
   JWT_SIGNUP_SECRET,
@@ -15,6 +17,11 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 
 // Sign up - send activation email
 exports.signup = (req, res) => {
+  const { errors, isValid } = validateSignUpInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const { name, email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
