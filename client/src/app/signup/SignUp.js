@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ signUp, signUpUser }) {
+function SignUp({ signUpErrors, signUpUser }) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -71,9 +71,9 @@ function SignUp({ signUp, signUpUser }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={signUp.error.firstName ? true : false}
+                error={signUpErrors.firstName ? true : false}
                 helperText={
-                  signUp.error.firstName ? signUp.error.firstName : false
+                  signUpErrors.firstName ? signUpErrors.firstName : false
                 }
                 autoComplete="fname"
                 name="firstName"
@@ -88,9 +88,9 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={signUp.error.lastName ? true : false}
+                error={signUpErrors.lastName ? true : false}
                 helperText={
-                  signUp.error.lastName ? signUp.error.lastName : false
+                  signUpErrors.lastName ? signUpErrors.lastName : false
                 }
                 variant="outlined"
                 required
@@ -104,8 +104,8 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUp.error.email ? true : false}
-                helperText={signUp.error.email ? signUp.error.email : false}
+                error={signUpErrors.email ? true : false}
+                helperText={signUpErrors.email ? signUpErrors.email : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -118,9 +118,9 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUp.error.password ? true : false}
+                error={signUpErrors.password ? true : false}
                 helperText={
-                  signUp.error.password ? signUp.error.password : false
+                  signUpErrors.password ? signUpErrors.password : false
                 }
                 variant="outlined"
                 required
@@ -135,9 +135,9 @@ function SignUp({ signUp, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUp.error.password2 ? true : false}
+                error={signUpErrors.password2 ? true : false}
                 helperText={
-                  signUp.error.password2 ? signUp.error.password2 : false
+                  signUpErrors.password2 ? signUpErrors.password2 : false
                 }
                 variant="outlined"
                 required
@@ -183,7 +183,7 @@ function SignUp({ signUp, signUpUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    signUp: state.signUp,
+    signUpErrors: state.signUp.error,
   };
 };
 
