@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './common/Header';
@@ -11,19 +12,14 @@ import SignUp from './session/signUp';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-function App() {
+function App(props) {
   return (
     <Router>
       <CssBaseline />
       <Header />
       <Switch>
         <Route exact path="/public" component={Public} />
-        <PrivateRoute
-          exact
-          path="/protected"
-          component={Protected}
-          testProp="hejhej"
-        />
+        <PrivateRoute exact path="/protected" component={Protected} />
         <Route exact path="/signup" component={SignUp} />
         {/* <Route exact path="/users" component={UsersContainer} /> */}
         <Route exact path="/login" component={Login} />
@@ -33,4 +29,9 @@ function App() {
   );
 }
 
-export default App;
+// const mapStateToProps = (state) => ({
+//   isAuthenticated: state.session.isAuthenticated,
+// });
+
+// export default connect(mapStateToProps)(App);
+export default connect()(App);
