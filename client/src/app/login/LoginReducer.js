@@ -28,6 +28,7 @@ export default (state = intialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        isAuthenticated: false,
       };
     default:
       return state;

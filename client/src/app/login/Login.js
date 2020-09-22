@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { loginUser } from './LoginActions';
@@ -50,11 +50,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ loginError, loginUser }) {
+function Login({ login, loginUser }) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
+
+  useEffect(() => {
+    if (login.isAuthenticated === true) {
+      history.push(from);
+    }
+  });
 
   const [values, setValues] = useState({
     email: '',
@@ -87,7 +93,7 @@ function Login({ loginError, loginUser }) {
         square
       >
         <div className={classes.paper}>
-          <p>You must log in to view the page at</p>
+          <p>You must log in to view the page at {from.pathname}</p>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -97,8 +103,8 @@ function Login({ loginError, loginUser }) {
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               onChange={onChange}
-              error={loginError.email ? true : false}
-              helperText={loginError.email ? loginError.email : false}
+              error={login.error.email ? true : false}
+              helperText={login.error.email ? login.error.email : false}
               variant="outlined"
               margin="normal"
               required
@@ -110,8 +116,8 @@ function Login({ loginError, loginUser }) {
               autoFocus
             />
             <TextField
-              error={loginError.password ? true : false}
-              helperText={loginError.password ? loginError.password : false}
+              error={login.error.password ? true : false}
+              helperText={login.error.password ? login.error.password : false}
               onChange={onChange}
               variant="outlined"
               margin="normal"
@@ -157,7 +163,7 @@ function Login({ loginError, loginUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    loginError: state.login.error,
+    login: state.login,
   };
 };
 

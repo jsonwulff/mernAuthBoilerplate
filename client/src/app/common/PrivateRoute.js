@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { isAuthenticatedCheck } from '../login/LoginActions';
 
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
+function PrivateRoute({
+  children,
+  isAuthenticated,
+  // isAuthenticatedCheck,
+  ...rest
+}) {
+  useEffect(() => isAuthenticatedCheck());
   return (
     <Route
       {...rest}
@@ -23,12 +29,14 @@ function PrivateRoute({ children, isAuthenticated, ...rest }) {
   );
 }
 
-PrivateRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   isAuthenticated: state.login.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    isAuthenticatedCheck: () => dispatch(isAuthenticatedCheck()),
+  };
+};
+
+export default connect(mapStateToProps, null)(PrivateRoute);

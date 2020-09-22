@@ -5,6 +5,7 @@ const sgMail = require('@sendgrid/mail');
 
 const validateSignUpInput = require('../validation/signup');
 const validateLoginInput = require('../validation/login');
+const { restart } = require('nodemon');
 
 const {
   SENDGRID_API_KEY,
@@ -138,4 +139,14 @@ exports.login = (req, res) => {
       });
     })
     .catch((err) => res.json({ Error: err }));
+};
+
+exports.isAuthenticated = (req, res) => {
+  token = req.cookies['token'];
+  jwt.verify(token, JWT_AUTH_SECRET, (err, decodedToken) => {
+    if (err) {
+      return res.json({ isAuthenticated: false });
+    }
+    res.json({ isAuthenticated: true });
+  });
 };
