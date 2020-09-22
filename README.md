@@ -9,6 +9,7 @@
 - [x] Add password encryption from mernProject
 - [x] Add validation to signup fields
 - [ ] Put the models in a table (In this README)
+- [ ] Redirect or change text upon succesfull signup
 
 ### Login / Auth todos
 

@@ -24,7 +24,7 @@ exports.signup = (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
       }
 
       // Create User
-      const newUser = new User({ name, email, password });
+      const newUser = new User({ firstName, lastName, email, password });
       // Hash Password  before saving in database
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
