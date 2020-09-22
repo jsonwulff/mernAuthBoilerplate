@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { isAuthenticatedCheck } from '../login/LoginActions';
+import { isAuthenticatedCheck } from '../session/sessionActions';
 
 function PrivateRoute({
-  children,
+  component: Component,
   isAuthenticated,
-  // isAuthenticatedCheck,
+  isAuthenticatedCheck,
   ...rest
 }) {
   useEffect(() => isAuthenticatedCheck());
@@ -15,7 +15,7 @@ function PrivateRoute({
       {...rest}
       render={({ location }) =>
         isAuthenticated ? (
-          children
+          <Component {...rest} />
         ) : (
           <Redirect
             to={{
@@ -30,7 +30,7 @@ function PrivateRoute({
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.login.isAuthenticated,
+  isAuthenticated: state.session.isAuthenticated,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -39,4 +39,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, null)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);

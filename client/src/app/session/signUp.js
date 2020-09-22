@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signUpUser } from './SignUpActions';
+import { signUpUser } from './sessionActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
@@ -55,6 +55,7 @@ function SignUp({ signUpErrors, signUpUser }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(values);
     signUpUser(values);
   };
 
@@ -183,7 +184,7 @@ function SignUp({ signUpErrors, signUpUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    signUpErrors: state.signUp.error,
+    signUpErrors: state.session.errors,
   };
 };
 

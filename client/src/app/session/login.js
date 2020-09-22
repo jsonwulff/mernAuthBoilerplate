@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { loginUser } from './LoginActions';
+import { loginUser } from './sessionActions';
 import {
   Button,
   Grid,
@@ -103,8 +103,8 @@ function Login({ login, loginUser }) {
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               onChange={onChange}
-              error={login.error.email ? true : false}
-              helperText={login.error.email ? login.error.email : false}
+              error={login.errors.email ? true : false}
+              helperText={login.errors.email ? login.errors.email : false}
               variant="outlined"
               margin="normal"
               required
@@ -116,8 +116,8 @@ function Login({ login, loginUser }) {
               autoFocus
             />
             <TextField
-              error={login.error.password ? true : false}
-              helperText={login.error.password ? login.error.password : false}
+              error={login.errors.password ? true : false}
+              helperText={login.errors.password ? login.errors.password : false}
               onChange={onChange}
               variant="outlined"
               margin="normal"
@@ -163,7 +163,7 @@ function Login({ login, loginUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login,
+    login: state.session,
   };
 };
 

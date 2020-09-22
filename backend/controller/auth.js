@@ -145,7 +145,7 @@ exports.isAuthenticated = (req, res) => {
   token = req.cookies['token'];
   jwt.verify(token, JWT_AUTH_SECRET, (err, decodedToken) => {
     if (err) {
-      return res.json({ isAuthenticated: false });
+      return res.status(400).json({ isAuthenticated: false });
     }
     res.json({ isAuthenticated: true });
   });
