@@ -5,7 +5,7 @@ import {
   POST_LOGIN_FAILURE,
 } from './LoginTypes';
 
-export const loginUser = (loginData, history) => {
+export const loginUser = (loginData, history, from) => {
   return (dispatch) => {
     dispatch(postLoginRequest);
     axios
@@ -13,7 +13,7 @@ export const loginUser = (loginData, history) => {
       .then((res) => {
         const successMessage = res.data;
         dispatch(postLoginSucces(successMessage));
-        history.push('/');
+        history.push(from);
       })
       .catch((err) => {
         const failuresMessages = err.response.data;

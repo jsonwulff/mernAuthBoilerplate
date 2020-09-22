@@ -32,9 +32,10 @@ export default function Header() {
     >
       <Toolbar>
         <Link
-          href="/"
+          to="/"
           variant="h6"
           color="inherit"
+          component={NavLink}
           noWrap
           className={classes.toolbarTitle}
           // component={Typography}
@@ -42,6 +43,26 @@ export default function Header() {
           e-Xercise
         </Link>
         <nav>
+          <Link
+            to="/public"
+            variant="button"
+            color="textPrimary"
+            component={NavLink}
+            activeClassName="active"
+            className={classes.link}
+          >
+            Public
+          </Link>
+          <Link
+            to="/protected"
+            variant="button"
+            color="textPrimary"
+            component={NavLink}
+            activeClassName="active"
+            className={classes.link}
+          >
+            Protected
+          </Link>
           <Link
             to="/signup"
             variant="button"

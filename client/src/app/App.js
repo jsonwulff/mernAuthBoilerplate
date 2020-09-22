@@ -2,7 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './common/Header';
+import PrivateRoute from './PrivateRoute';
 import Login from './login/Login';
+import Protected from './protectedPage';
+import Public from './pubilicPage';
 // import UsersContainer from './userPlaceholder/user';
 import SignUp from './signup/SignUp';
 
@@ -14,6 +17,10 @@ function App() {
       <CssBaseline />
       <Header />
       <Switch>
+        <Route exact path="/public" component={Public} />
+        <PrivateRoute exact path="/protected">
+          <Protected />
+        </PrivateRoute>
         <Route exact path="/signup" component={SignUp} />
         {/* <Route exact path="/users" component={UsersContainer} /> */}
         <Route exact path="/login" component={Login} />

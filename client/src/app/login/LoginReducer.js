@@ -7,6 +7,7 @@ import {
 const intialState = {
   loading: false,
   error: '',
+  isAuthenticated: false,
 };
 
 export default (state = intialState, action) => {
@@ -20,6 +21,7 @@ export default (state = intialState, action) => {
       return {
         ...state,
         loading: false,
+        isAuthenticated: true,
       };
     case POST_LOGIN_FAILURE:
       return {

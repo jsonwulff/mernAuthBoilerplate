@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { loginUser } from './LoginActions';
 import {
   Button,
@@ -53,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
 function Login({ loginError, loginUser }) {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
 
   const [values, setValues] = useState({
     email: '',
@@ -66,7 +68,7 @@ function Login({ loginError, loginUser }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    loginUser(values, history);
+    loginUser(values, history, from.pathname);
   };
 
   return (
@@ -85,6 +87,7 @@ function Login({ loginError, loginUser }) {
         square
       >
         <div className={classes.paper}>
+          <p>You must log in to view the page at</p>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -160,7 +163,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (loginData, history) => dispatch(loginUser(loginData, history)),
+    loginUser: (loginData, history, from) =>
+      dispatch(loginUser(loginData, history, from)),
   };
 };
 
