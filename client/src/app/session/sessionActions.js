@@ -88,18 +88,12 @@ export const isAuthenticatedCheck = () => {
     axios
       .get('/api/isAuthenticated')
       .then((res) => {
-        // console.log('Check is authenticated');
-        // console.log(res.data.isAuthenticated);
         const answer = res.data.isAuthenticated;
         dispatch(isAuthenticated(answer));
       })
       .catch((err) => {
         const answer = err.response.data.isAuthenticated;
         dispatch(isAuthenticated(answer));
-        // console.log('is not authenticated');
-        // console.log(err);
-        // dispatch(isAuthenticated(err.response.data));
-        // dispatch(loginFailure());
       });
   };
 };

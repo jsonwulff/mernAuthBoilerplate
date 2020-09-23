@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { isAuthenticatedCheck } from './session/sessionActions';
 
 import Header from './common/Header';
 import PrivateRoute from './common/PrivateRoute';
@@ -12,11 +13,17 @@ import SignUp from './session/signUp';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-function App(props) {
+function App({ props, isAuthenticatedCheck }) {
+  useEffect(() => {
+    console.log('frontpage');
+    isAuthenticatedCheck();
+  });
   return (
     <Router>
       <CssBaseline />
-      <Header />
+      <Switch>
+        <Header />
+      </Switch>
       <Switch>
         <Route exact path="/public" component={Public} />
         <PrivateRoute exact path="/protected" component={Protected} />
@@ -29,9 +36,14 @@ function App(props) {
   );
 }
 
-// const mapStateToProps = (state) => ({
-//   isAuthenticated: state.session.isAuthenticated,
-// });
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.session.isAuthenticated,
+});
 
-// export default connect(mapStateToProps)(App);
-export default connect()(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    isAuthenticatedCheck: () => dispatch(isAuthenticatedCheck()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
