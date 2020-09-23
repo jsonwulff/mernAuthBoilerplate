@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Button } from '@material-ui/core';
@@ -76,9 +77,8 @@ function SignUpButton(props) {
 }
 
 function Header(props) {
-  console.log(props);
-
   const classes = useStyles();
+  console.log('header');
 
   return (
     <AppBar
@@ -120,11 +120,11 @@ function Header(props) {
           >
             Protected
           </Link>
-          <LoginButton
+          <SignUpButton
             className={classes.link}
             display={props.isAuthenticated}
           />
-          <SignUpButton
+          <LoginButton
             className={classes.link}
             display={props.isAuthenticated}
           />
@@ -142,4 +142,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.session.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(withRouter(Header));
