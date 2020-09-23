@@ -78,7 +78,7 @@ function SignUpButton(props) {
 
 function Header(props) {
   const classes = useStyles();
-  console.log('header');
+  console.log('header rerendered');
 
   return (
     <AppBar
