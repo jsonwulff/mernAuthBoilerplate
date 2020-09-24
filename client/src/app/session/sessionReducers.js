@@ -5,7 +5,17 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  VERIFY_EMAIL_REQUEST,
+  VERIFY_EMAIL_SUCCESS,
+  VERIFY_EMAIL_FAILURE,
   IS_AUTHENTICATED,
+  LOGOUT_USER,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE,
 } from './sessionTypes';
 
 const intialState = {
@@ -53,10 +63,69 @@ export default (state = intialState, action) => {
         loading: false,
         errors: action.payload,
       };
+    case VERIFY_EMAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        errors: '',
+      };
+    case VERIFY_EMAIL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        errors: '',
+      };
+    case VERIFY_EMAIL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
+      };
     case IS_AUTHENTICATED:
       return {
         ...state,
         isAuthenticated: action.payload,
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        isAuthenticated: false,
+      };
+    case FORGOT_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        errors: '',
+      };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        errors: '',
+      };
+    case FORGOT_PASSWORD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
+      };
+    case RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        errors: '',
+      };
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        errors: '',
+      };
+    case RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
       };
     default:
       return state;

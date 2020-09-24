@@ -7,6 +7,8 @@ import { NavLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
+import LogoutButton from './components/LogoutButton';
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -40,24 +42,6 @@ function LoginButton(props) {
   );
 }
 
-function LogouButton(props) {
-  if (props.display) {
-    return null;
-  }
-  return (
-    <Button
-      to="#"
-      variant="outlined"
-      color="primary"
-      component={NavLink}
-      activeClassName="active"
-      className={props.className}
-    >
-      Logout
-    </Button>
-  );
-}
-
 function SignUpButton(props) {
   if (props.display) {
     return null;
@@ -78,15 +62,9 @@ function SignUpButton(props) {
 
 function Header(props) {
   const classes = useStyles();
-  console.log('header rerendered');
 
   return (
-    <AppBar
-      position="static"
-      color="default"
-      elevation={0}
-      className={classes.appBar}
-    >
+    <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
       <Toolbar>
         <Link
           to="/"
@@ -110,36 +88,29 @@ function Header(props) {
           >
             Public
           </Link>
-          <Link
-            to="/protected"
-            variant="button"
-            color="textPrimary"
-            component={NavLink}
-            activeClassName="active"
-            className={classes.link}
-          >
-            Protected
-          </Link>
-          <SignUpButton
-            className={classes.link}
-            display={props.isAuthenticated}
-          />
-          <LoginButton
-            className={classes.link}
-            display={props.isAuthenticated}
-          />
-          <LogouButton
-            className={classes.link}
-            display={!props.isAuthenticated}
-          />
+          {props.isAuthenticated ? (
+            <Link
+              to="/protected"
+              variant="button"
+              color="textPrimary"
+              component={NavLink}
+              activeClassName="active"
+              className={classes.link}
+            >
+              Protected
+            </Link>
+          ) : null}
+          <SignUpButton className={classes.link} display={props.isAuthenticated} />
+          <LoginButton className={classes.link} display={props.isAuthenticated} />
+          <LogoutButton className={classes.link} display={!props.isAuthenticated} />
         </nav>
       </Toolbar>
     </AppBar>
   );
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.session.isAuthenticated,
-});
+// const mapStateToProps = (state) => ({
+//   isAuthenticated: state.session.isAuthenticated,
+// });
 
-export default connect(mapStateToProps)(withRouter(Header));
+export default connect()(withRouter(Header));

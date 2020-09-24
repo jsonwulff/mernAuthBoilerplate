@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signUpUser } from './sessionActions';
+import { resetPassword } from './sessionActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
@@ -35,15 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ signUpErrors, signUpUser }) {
+function ResetPassword({ errors, resetPassword }) {
   const classes = useStyles();
+  const { token } = useParams();
 
   const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
     password: '',
     password2: '',
+    token,
   });
 
   const onChange = (e) => {
@@ -53,7 +53,7 @@ function SignUp({ signUpErrors, signUpUser }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    signUpUser(values);
+    resetPassword(values);
   };
 
   return (
@@ -63,57 +63,14 @@ function SignUp({ signUpErrors, signUpUser }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Reset password
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={signUpErrors.firstName ? true : false}
-                helperText={signUpErrors.firstName ? signUpErrors.firstName : false}
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                onChange={onChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={signUpErrors.lastName ? true : false}
-                helperText={signUpErrors.lastName ? signUpErrors.lastName : false}
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                onChange={onChange}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUpErrors.email ? true : false}
-                helperText={signUpErrors.email ? signUpErrors.email : false}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={onChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={signUpErrors.password ? true : false}
-                helperText={signUpErrors.password ? signUpErrors.password : false}
+                error={errors.password ? true : false}
+                helperText={errors.password ? errors.password : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -127,8 +84,8 @@ function SignUp({ signUpErrors, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUpErrors.password2 ? true : false}
-                helperText={signUpErrors.password2 ? signUpErrors.password2 : false}
+                error={errors.password2 ? true : false}
+                helperText={errors.password2 ? errors.password2 : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -147,7 +104,7 @@ function SignUp({ signUpErrors, signUpUser }) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Reset password
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
@@ -167,14 +124,14 @@ function SignUp({ signUpErrors, signUpUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    signUpErrors: state.session.errors,
+    errors: state.session.errors,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUpUser: (newUser) => dispatch(signUpUser(newUser)),
+    resetPassword: (resetData) => dispatch(resetPassword(resetData)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

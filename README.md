@@ -2,14 +2,29 @@
 
 ## To Do
 
+- [ ] Create redirects and success messages on signup flow
+- [ ] Refactor code -> change session to auth, destructure functions eg header and reducer/action/types, camelcase, email to tamplates, remove console logs
+- [ ] Reset password: check time for password recreation with the token iat
+- [ ] Create rotues for react app
+- [ ] Add opportunity to make email reconfirmation
 - [ ] Put the models in a table (In this README)
 - [ ] Redirect or change text upon succesfull signup
-- [ ] Add password reset
-- [x] Add validation to signup
-- [x] Changes signup flow such that the user i created at signup and the jwt token link does not contain the password.
-- [ ] Consider Restructure the passport stratigy - move from middleware
-- [ ] Consider dropping all the logic from App and paste it into index
 - [ ] Consider refactoring components with mapStateToProps and mapDispatchToProps eg. `function Login({ login, loginUser })` should be `function Login({ props, dispatch })`
+- [ ] Consider add expiration to auth cookie
+- [ ] Consider moving header buttons into components folder
+- [ ] [Consider making tests for the API](https://rahmanfadhil.com/test-express-with-supertest/)
+
+### Authentication flow
+
+1. Sign up - if successfull redirect to somewhere.
+2. Activate account via email - upon success redirect to login with success message
+3. Login - check that user is also confirmed
+4. Upon visiting protected page - check that email is connfirmed, and password hasn't changed
+5. Logout - Clear cookie
+
+## Making production ready
+
+1. Look for correct usages of enviroment variable in auth controller - especially in email templates.
 
 ## Models
 

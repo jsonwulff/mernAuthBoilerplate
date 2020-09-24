@@ -5,7 +5,7 @@ module.exports = function validateEmail(email) {
   const errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
-  data.email = !isEmpty(data.email) ? data.email : '';
+  email = !isEmpty(email) ? email : '';
 
   // Email checks
   if (Validator.isEmpty(email)) {

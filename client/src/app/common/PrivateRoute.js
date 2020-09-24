@@ -9,7 +9,7 @@ function PrivateRoute({
   isAuthenticatedCheck,
   ...rest
 }) {
-  useEffect(() => isAuthenticatedCheck());
+  useEffect(() => isAuthenticatedCheck(), [isAuthenticatedCheck]);
   return (
     <Route
       {...rest}
@@ -29,14 +29,10 @@ function PrivateRoute({
   );
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.session.isAuthenticated,
-});
-
 const mapDispatchToProps = (dispatch) => {
   return {
     isAuthenticatedCheck: () => dispatch(isAuthenticatedCheck()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default connect(null, mapDispatchToProps)(PrivateRoute);

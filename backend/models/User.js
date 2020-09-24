@@ -24,7 +24,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    passwordDate: {
+    passwordIAT: {
       type: Date,
       default: Date.now,
     },
