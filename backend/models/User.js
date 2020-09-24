@@ -24,6 +24,10 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    passwordDate: {
+      type: Date,
+      default: Date.now,
+    },
     confirmed: {
       type: Boolean,
       default: false,
