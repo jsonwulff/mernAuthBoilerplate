@@ -140,10 +140,7 @@ exports.isAuthenticated = (req, res) => {
       return res.status(400).clearCookie('token').json({ isAuthenticated: false });
     }
 
-    console.log(decodedToken);
-
     User.findById(decodedToken.id).then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(400).clearCookie('token').json({ isAuthenticated: false });
       }
