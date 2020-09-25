@@ -21,6 +21,7 @@ import {
 const intialState = {
   loading: false,
   errors: '',
+  message: '',
   isAuthenticated: false,
 };
 
@@ -31,18 +32,21 @@ export default (state = intialState, action) => {
         ...state,
         loading: true,
         errors: '',
+        message: '',
       };
     case SIGNUP_SUCCESS:
       return {
         ...state,
         loading: false,
         errors: '',
+        message: action.payload,
       };
     case SIGNUP_FAILURE:
       return {
         ...state,
         loading: false,
         errors: action.payload,
+        message: '',
       };
     case LOGIN_REQUEST:
       return {

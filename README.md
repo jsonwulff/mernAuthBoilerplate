@@ -2,7 +2,7 @@
 
 ## To Do
 
-- [ ] Create redirects and success messages on signup flow
+- [x] Create redirects and success messages on signup flow
 - [ ] Refactor code -> change session to auth, destructure functions eg header and reducer/action/types, camelcase, email to tamplates, remove console logs
 - [ ] Reset password: check time for password recreation with the token iat
 - [ ] Create rotues for react app

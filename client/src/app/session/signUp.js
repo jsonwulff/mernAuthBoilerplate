@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { signUpUser } from './sessionActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -35,8 +36,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ signUpErrors, signUpUser }) {
+function SignUp({ errors, message, isAuthenticated, signUpUser }) {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
+
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      history.push(from);
+    }
+  });
 
   const [values, setValues] = useState({
     firstName: '',
@@ -56,6 +66,9 @@ function SignUp({ signUpErrors, signUpUser }) {
     signUpUser(values);
   };
 
+  if (message) {
+    return <div>{message}</div>;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -69,8 +82,8 @@ function SignUp({ signUpErrors, signUpUser }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={signUpErrors.firstName ? true : false}
-                helperText={signUpErrors.firstName ? signUpErrors.firstName : false}
+                error={errors.firstName ? true : false}
+                helperText={errors.firstName ? errors.firstName : false}
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -84,8 +97,8 @@ function SignUp({ signUpErrors, signUpUser }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={signUpErrors.lastName ? true : false}
-                helperText={signUpErrors.lastName ? signUpErrors.lastName : false}
+                error={errors.lastName ? true : false}
+                helperText={errors.lastName ? errors.lastName : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -98,8 +111,8 @@ function SignUp({ signUpErrors, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUpErrors.email ? true : false}
-                helperText={signUpErrors.email ? signUpErrors.email : false}
+                error={errors.email ? true : false}
+                helperText={errors.email ? errors.email : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -112,8 +125,8 @@ function SignUp({ signUpErrors, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUpErrors.password ? true : false}
-                helperText={signUpErrors.password ? signUpErrors.password : false}
+                error={errors.password ? true : false}
+                helperText={errors.password ? errors.password : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -127,8 +140,8 @@ function SignUp({ signUpErrors, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={signUpErrors.password2 ? true : false}
-                helperText={signUpErrors.password2 ? signUpErrors.password2 : false}
+                error={errors.password2 ? true : false}
+                helperText={errors.password2 ? errors.password2 : false}
                 variant="outlined"
                 required
                 fullWidth
@@ -167,7 +180,9 @@ function SignUp({ signUpErrors, signUpUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    signUpErrors: state.session.errors,
+    isAuthenticated: state.session.isAuthenticated,
+    errors: state.session.errors,
+    message: state.session.message,
   };
 };
 

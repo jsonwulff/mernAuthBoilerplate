@@ -64,7 +64,7 @@ exports.signup = (req, res) => {
                 return res.json({ Error: err });
               }
               return res.json({
-                message: 'Signup succesfull. An Email has been sent, kindly activate your account',
+                message: 'Signup successfull. An Email has been sent to activate your account',
               });
             });
           });

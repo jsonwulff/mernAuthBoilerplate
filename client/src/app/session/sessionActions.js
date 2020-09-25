@@ -20,14 +20,16 @@ import {
 } from './sessionTypes';
 
 // ! SIGN UP ACTIONS
-export const signUpUser = (userData, history) => {
+export const signUpUser = (userData) => {
   return (dispatch) => {
     dispatch(signUpRequest());
     axios
       .post('/api/signup', userData)
-      .then(() => {
+      .then((res) => {
         // Insert redirect or succes messages for signup page
-        dispatch(signUpSuccess());
+        const successMessages = res.data;
+        console.log(successMessages);
+        dispatch(signUpSuccess(successMessages));
       })
       .catch((err) => {
         const failuresMessages = err.response.data;
@@ -42,9 +44,10 @@ export const signUpRequest = () => {
   };
 };
 
-export const signUpSuccess = () => {
+export const signUpSuccess = (payload) => {
   return {
     type: SIGNUP_SUCCESS,
+    payload: payload.message,
   };
 };
 
@@ -152,6 +155,18 @@ export const isAuthenticated = (answer) => {
 
 // ! LOGOUT USER
 export const logoutUser = () => {
+  return (dispatch) => {
+    axios
+      .get('/api/logout')
+      .then((res) => {
+        console.log(res.data);
+        dispatch(logoutUserRequest());
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const logoutUserRequest = () => {
   return {
     type: LOGOUT_USER,
   };
