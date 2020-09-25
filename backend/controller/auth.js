@@ -2,7 +2,6 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
-const express = require('express');
 
 const validateSignUpInput = require('../validation/signup');
 const validateLoginInput = require('../validation/login');
