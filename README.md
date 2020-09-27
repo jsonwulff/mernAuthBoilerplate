@@ -28,6 +28,10 @@ User
 - email string required
 - password string required
 
+## CI/CD workflow 
+
+- [CI / CD - Github Actions](https://www.basefactor.com/github-actions-docker)
+
 ## Articles/videos used for login
 
 - [Using JWT (JSON Web Tokens) to authorize users and protect API routes](https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e)
