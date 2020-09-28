@@ -2,6 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
+const jwt_decode = require('jwt-decode');
 
 const validateSignUpInput = require('../validation/signup');
 const validateLoginInput = require('../validation/login');
@@ -45,17 +46,17 @@ exports.signup = (req, res) => {
               return res.status(400).json({ Error: err });
             }
             const token = jwt.sign({ id: user._id }, JWT_SIGNUP_SECRET, {
-              expiresIn: '1d',
+              expiresIn: '1m',
             });
 
             const msg = {
               to: 'julianwulff@gmail.com', // ! This should be changed - only for testing purposes
               from: `${SENDER_EMAIL}`, // ! This should be change - only for testing purposes
               subject: 'Account Activation Link',
-              text: `Please click on the given link to activate your account: ${CLIENT_URL}/authenticate/activate/${token}`,
+              text: `Please click on the given link to activate your account: ${CLIENT_URL}/auth/verify-email/${token}`,
               html: `
                 <h2>Please click on the given link to activate your account</h2>
-                <a href="http://localhost:3000/verify-email/${token}">Click to verify email</a>
+                <a href="${CLIENT_URL}/auth/verify-email/${token}">Click to verify email</a>
                 `,
             };
 
@@ -74,8 +75,46 @@ exports.signup = (req, res) => {
     .catch((err) => res.json({ Error: err }));
 };
 
-// Activate account
-exports.activateAccount = (req, res) => {
+// Resend activation link
+exports.resendVerificationEmail = (req, res) => {
+  console.log(req.body);
+  const { id } = jwt_decode(req.body.token);
+  // console.log(jwt_decode(token));
+  User.findById(id)
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({ email: 'User does not exists' });
+      }
+
+      const token = jwt.sign({ id }, JWT_SIGNUP_SECRET, {
+        expiresIn: '1d',
+      });
+
+      const msg = {
+        to: 'julianwulff@gmail.com', // ! This should be changed - only for testing purposes
+        from: `${SENDER_EMAIL}`, // ! This should be change - only for testing purposes
+        subject: 'Account Activation Link',
+        text: `Please click on the given link to activate your account: ${CLIENT_URL}/auth/verify-email/${token}`,
+        html: `
+          <h2>Please click on the given link to activate your account</h2>
+          <a href="${CLIENT_URL}/auth/verify-email/${token}">Click to verify email</a>
+          `,
+      };
+
+      sgMail.send(msg, (err, result) => {
+        if (err) {
+          return res.json({ Error: err });
+        }
+        return res.json({
+          message: 'An Email has been sent to activate your account',
+        });
+      });
+    })
+    .catch((err) => res.json({ Error: err }));
+};
+
+// Verify email
+exports.verifyEmail = (req, res) => {
   const { token } = req.body;
 
   if (token) {
@@ -88,7 +127,7 @@ exports.activateAccount = (req, res) => {
       User.findByIdAndUpdate(id)
         .then((user) => {
           if (user.confirmed === true) {
-            return res.status(400).json({ Error: 'Email has already been confirmed' });
+            return res.json({ message: 'Email has already been confirmed' });
           }
           user.confirmed = true;
           user
@@ -132,25 +171,25 @@ exports.login = (req, res) => {
 };
 
 // Check if the user is authenticated
-exports.isAuthenticated = (req, res) => {
+exports.authenticated = (req, res) => {
   token = req.cookies['token'];
   jwt.verify(token, JWT_AUTH_SECRET, (err, decodedToken) => {
     if (err) {
-      return res.status(400).clearCookie('token').json({ isAuthenticated: false });
+      return res.status(400).clearCookie('token').json({ authenticated: false });
     }
 
     User.findById(decodedToken.id).then((user) => {
       if (!user) {
-        return res.status(400).clearCookie('token').json({ isAuthenticated: false });
+        return res.status(400).clearCookie('token').json({ authenticated: false });
       }
 
       // Check that password IAT is older than token IAT
       const passwordIAT = new Date(user.passwordIAT).getTime() / 1000;
       if (passwordIAT > decodedToken.iat) {
-        return res.status(400).clearCookie('token').json({ isAuthenticated: false });
+        return res.status(400).clearCookie('token').json({ authenticated: false });
       }
 
-      res.json({ isAuthenticated: true });
+      res.json({ authenticated: true });
     });
   });
 };
@@ -182,7 +221,7 @@ exports.forgotPassword = (req, res) => {
         text: `Please click on the given link to reset your password: ${CLIENT_URL}/reset-password/${token}`,
         html: `
           <h2>Please click on the given link to reset your password</h2>
-          <a href="http://localhost:3000/reset-password/${token}">Click to reset password</a>
+          <a href="${CLIENT_URL}/auth/reset-password/${token}">Click to reset password</a>
           `,
       };
 
@@ -206,19 +245,24 @@ exports.resetPassword = (req, res) => {
   const token = req.body.token;
   jwt.verify(token, JWT_SIGNUP_SECRET, (err, decodedToken) => {
     if (err) {
-      return res.status(400).json({ error: 'Reset token expired' });
+      return res.status(400).json({ error: 'Reset link expired' });
     }
 
     const { id } = decodedToken;
     User.findByIdAndUpdate(id)
       .then((user) => {
+        const passwordIAT = new Date(user.passwordIAT).getTime() / 1000;
+        if (passwordIAT > decodedToken.iat) {
+          return res.status(400).json({ error: 'Password already reset' });
+        }
+
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(req.body.password, salt, (err, hash) => {
             user.password = hash;
             user.passwordIAT = Date.now();
             user
               .save()
-              .then(() => res.json({ message: 'Password succesfully reset', user, hash }))
+              .then(() => res.json({ message: 'Password succesfully reset' }))
               .catch((err) => res.status(400).json({ Error: err }));
           });
         });

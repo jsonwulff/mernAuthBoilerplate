@@ -3,18 +3,20 @@ const router = express.Router();
 // Import controller
 const {
   signup,
-  activateAccount,
+  verifyEmail,
+  resendVerificationEmail,
   login,
-  isAuthenticated,
+  authenticated,
   logout,
   forgotPassword,
   resetPassword,
 } = require('../controller/auth');
 
 router.post('/signup', signup);
-router.post('/activate-email/', activateAccount);
-router.post('/login/', login);
-router.get('/isAuthenticated', isAuthenticated);
+router.post('/verify-email', verifyEmail);
+router.post('/resend-verification-email', resendVerificationEmail);
+router.post('/login', login);
+router.get('/authenticated', authenticated);
 router.get('/logout', logout);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
