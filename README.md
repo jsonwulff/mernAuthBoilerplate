@@ -38,6 +38,12 @@ User
 
 ## Articles
 
+### CI/CD workflow
+
+- [CI / CD - Github Actions](https://www.basefactor.com/github-actions-docker)
+
+### Articles/videos used for login
+
 - [Node.js passport-jwt how to send token in a cookie?](https://stackoverflow.com/questions/39163413/node-js-passport-jwt-how-to-send-token-in-a-cookie)
 - [How to restrict access using Passport.js role-based authorisation](https://developerhandbook.com/passport.js/passport-role-based-authorisation-authentication/)
 - [Sessionless Authentication using JWTs (with Node + Express + Passport JS)](https://blog.usejournal.com/sessionless-authentication-withe-jwts-with-node-express-passport-js-69b059e4b22c)
