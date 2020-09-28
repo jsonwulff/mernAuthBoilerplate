@@ -1,4 +1,6 @@
-# BachelorProject
+# mernAuthBoilerPlate
+
+This is a "fork" of my own project which may come in handy another time. [This article](https://deanmalone.net/post/how-to-fork-your-own-repo-on-github/) was used to "fork" my own project and `git pull upstream master` might be used to pull updates form the original project
 
 ## To Do
 
