@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { isAuthenticatedCheck } from '../session/sessionActions';
+import { authenticatedCheck } from '../auth/authenticated/authenticatedActions';
 
-function PrivateRoute({
-  component: Component,
-  isAuthenticated,
-  isAuthenticatedCheck,
-  ...rest
-}) {
-  useEffect(() => isAuthenticatedCheck(), [isAuthenticatedCheck]);
+function PrivateRoute({ component: Component, isAuthenticated, authenticatedCheck, ...rest }) {
+  useEffect(() => authenticatedCheck(), [authenticatedCheck]);
   return (
     <Route
       {...rest}
@@ -31,7 +26,7 @@ function PrivateRoute({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    isAuthenticatedCheck: () => dispatch(isAuthenticatedCheck()),
+    authenticatedCheck: () => dispatch(authenticatedCheck()),
   };
 };
 

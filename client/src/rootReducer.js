@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 
-import sessionReducers from './app/session/sessionReducers';
-import userReducer from './app/userPlaceholder/userReducer';
+import authReducer from './app/auth/authReducers';
 
 export default combineReducers({
-  session: sessionReducers,
-  users: userReducer,
+  auth: authReducer,
 });
