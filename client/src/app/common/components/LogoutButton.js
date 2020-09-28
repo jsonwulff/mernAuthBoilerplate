@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { logoutUser } from '../../session/sessionActions';
+import { logoutUser } from '../../auth/authenticated/authenticatedActions';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
