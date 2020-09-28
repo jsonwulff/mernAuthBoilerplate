@@ -1,13 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import { Toolbar, Button } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import { Toolbar, Link, AppBar, makeStyles } from '@material-ui/core';
 
 import LogoutButton from './components/LogoutButton';
+import LoginButton from './components/LoginButton';
+import SignUpButton from './components/SignUpButton';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -24,43 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginButton(props) {
-  if (props.display) {
-    return null;
-  }
-  return (
-    <Button
-      to="/login"
-      variant="outlined"
-      color="primary"
-      component={NavLink}
-      activeClassName="active"
-      className={props.className}
-    >
-      Login
-    </Button>
-  );
-}
-
-function SignUpButton(props) {
-  if (props.display) {
-    return null;
-  }
-  return (
-    <Link
-      to="/signup"
-      variant="button"
-      color="textPrimary"
-      component={NavLink}
-      activeClassName="active"
-      className={props.className}
-    >
-      Sign up
-    </Link>
-  );
-}
-
-function Header(props) {
+function Header({ authenticated }) {
   const classes = useStyles();
 
   return (
@@ -73,7 +35,6 @@ function Header(props) {
           component={NavLink}
           noWrap
           className={classes.toolbarTitle}
-          // component={Typography}
         >
           e-Xercise
         </Link>
@@ -88,7 +49,7 @@ function Header(props) {
           >
             Public
           </Link>
-          {props.isAuthenticated ? (
+          {authenticated ? (
             <Link
               to="/protected"
               variant="button"
@@ -100,17 +61,13 @@ function Header(props) {
               Protected
             </Link>
           ) : null}
-          <SignUpButton className={classes.link} display={props.isAuthenticated} />
-          <LoginButton className={classes.link} display={props.isAuthenticated} />
-          <LogoutButton className={classes.link} display={!props.isAuthenticated} />
+          <SignUpButton to="/auth/signup" className={classes.link} display={authenticated} />
+          <LoginButton to="/auth/login" className={classes.link} display={authenticated} />
+          <LogoutButton className={classes.link} display={!authenticated} />
         </nav>
       </Toolbar>
     </AppBar>
   );
 }
-
-// const mapStateToProps = (state) => ({
-//   isAuthenticated: state.session.isAuthenticated,
-// });
 
 export default connect()(withRouter(Header));
