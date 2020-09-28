@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { loginUser } from './sessionActions';
+import { loginUser } from './login/loginActions';
 import {
   Button,
   Grid,
@@ -15,6 +15,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core/';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import SuccessMessage from './components/SuccessMessage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,14 +49,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ login, loginUser }) {
+function Login({ authenticated, errors, loginUser, verifyEmailMessage, resetPasswordMessage }) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
 
   useEffect(() => {
-    if (login.isAuthenticated === true) {
+    if (authenticated === true) {
       history.push(from);
     }
   });
@@ -91,7 +92,7 @@ function Login({ login, loginUser }) {
         square
       >
         <div className={classes.paper}>
-          <p>You must log in to view the page at {from.pathname}</p>
+          {/* <p>You must log in to view the page at {from.pathname}</p> */}
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -101,8 +102,8 @@ function Login({ login, loginUser }) {
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
               onChange={onChange}
-              error={login.errors.email ? true : false}
-              helperText={login.errors.email ? login.errors.email : false}
+              error={errors.email ? true : false}
+              helperText={errors.email ? errors.email : false}
               variant="outlined"
               margin="normal"
               required
@@ -114,8 +115,8 @@ function Login({ login, loginUser }) {
               autoFocus
             />
             <TextField
-              error={login.errors.password ? true : false}
-              helperText={login.errors.password ? login.errors.password : false}
+              error={errors.password ? true : false}
+              helperText={errors.password ? errors.password : false}
               onChange={onChange}
               variant="outlined"
               margin="normal"
@@ -142,17 +143,19 @@ function Login({ login, loginUser }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/forgot-password" variant="body2">
+                <Link href="/auth/forgot-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/auth/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </form>
+          {verifyEmailMessage ? <SuccessMessage message={verifyEmailMessage} /> : null}
+          {resetPasswordMessage ? <SuccessMessage message={resetPasswordMessage} /> : null}
         </div>
       </Grid>
     </Grid>
@@ -161,7 +164,10 @@ function Login({ login, loginUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.session,
+    resetPasswordMessage: state.auth.resetPassword.message,
+    verifyEmailMessage: state.auth.verifyEmail.message,
+    authenticated: state.auth.authenticated,
+    errors: state.auth.login.errors,
   };
 };
 

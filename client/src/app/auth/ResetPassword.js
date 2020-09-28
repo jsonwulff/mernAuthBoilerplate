@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { forgotPassword } from './sessionActions';
+import { resetPassword } from './resetPassword/resetPasswordActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
@@ -14,6 +15,7 @@ import {
   makeStyles,
   Container,
 } from '@material-ui/core/';
+import { Alert } from '@material-ui/lab/';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,13 +35,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  warning: {
+    margin: theme.spacing(3, 0, 0),
+  },
 }));
 
-function ForgotPassword({ errors, forgotPassword }) {
+function ResetPassword({ errors, resetPassword, message, history }) {
   const classes = useStyles();
-
+  const { token } = useParams();
   const [values, setValues] = useState({
-    email: '',
+    password: '',
+    password2: '',
+    token,
+  });
+
+  useEffect(() => {
+    if (message) {
+      history.push('/auth/login');
+    }
   });
 
   const onChange = (e) => {
@@ -49,7 +62,7 @@ function ForgotPassword({ errors, forgotPassword }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    forgotPassword(values);
+    resetPassword(values);
   };
 
   return (
@@ -59,21 +72,36 @@ function ForgotPassword({ errors, forgotPassword }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Forgot password
+          Reset password
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                error={errors.email ? true : false}
-                helperText={errors.email ? errors.email : false}
+                error={errors.password ? true : false}
+                helperText={errors.password ? errors.password : false}
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={onChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                error={errors.password2 ? true : false}
+                helperText={errors.password2 ? errors.password2 : false}
+                variant="outlined"
+                required
+                fullWidth
+                name="password2"
+                label="Repeat Password"
+                type="password"
+                id="password2"
                 onChange={onChange}
               />
             </Grid>
@@ -89,12 +117,17 @@ function ForgotPassword({ errors, forgotPassword }) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href="/auth/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
         </form>
+        {errors.error ? (
+          <Alert severity="error" className={classes.warning}>
+            {errors.error}
+          </Alert>
+        ) : null}
       </div>
       <Box mt={5}>
         <Copyright />
@@ -105,14 +138,15 @@ function ForgotPassword({ errors, forgotPassword }) {
 
 const mapStateToProps = (state) => {
   return {
-    errors: state.session.errors,
+    errors: state.auth.resetPassword.errors,
+    message: state.auth.resetPassword.message,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    forgotPassword: (email) => dispatch(forgotPassword(email)),
+    resetPassword: (resetData) => dispatch(resetPassword(resetData)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

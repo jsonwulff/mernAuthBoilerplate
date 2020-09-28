@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { signUpUser } from './sessionActions';
+import { signUpUser } from './signUp/signUpActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
@@ -15,6 +15,7 @@ import {
   makeStyles,
   Container,
 } from '@material-ui/core/';
+import SuccessMessage from './components/SuccessMessage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,17 +37,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ errors, message, isAuthenticated, signUpUser }) {
+function SignUp({ errors, message, authenticated, signUpUser }) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
 
   useEffect(() => {
-    if (isAuthenticated === true) {
+    if (authenticated === true) {
       history.push(from);
     }
   });
+
+  useEffect(() => {
+    if (message) {
+      clearValues();
+    }
+  }, [message]);
 
   const [values, setValues] = useState({
     firstName: '',
@@ -56,6 +63,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
     password2: '',
   });
 
+  // console.log(values);
   const onChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
@@ -66,9 +74,16 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
     signUpUser(values);
   };
 
-  if (message) {
-    return <div>{message}</div>;
-  }
+  const clearValues = () => {
+    setValues({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      password2: '',
+    });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -82,6 +97,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                value={values.firstName}
                 error={errors.firstName ? true : false}
                 helperText={errors.firstName ? errors.firstName : false}
                 autoComplete="fname"
@@ -97,6 +113,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                value={values.lastName}
                 error={errors.lastName ? true : false}
                 helperText={errors.lastName ? errors.lastName : false}
                 variant="outlined"
@@ -111,6 +128,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={values.email}
                 error={errors.email ? true : false}
                 helperText={errors.email ? errors.email : false}
                 variant="outlined"
@@ -125,6 +143,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={values.password}
                 error={errors.password ? true : false}
                 helperText={errors.password ? errors.password : false}
                 variant="outlined"
@@ -140,6 +159,7 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={values.password2}
                 error={errors.password2 ? true : false}
                 helperText={errors.password2 ? errors.password2 : false}
                 variant="outlined"
@@ -164,12 +184,13 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href="/auth/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
         </form>
+        {message ? <SuccessMessage message={message} /> : null}
       </div>
       <Box mt={5}>
         <Copyright />
@@ -180,9 +201,9 @@ function SignUp({ errors, message, isAuthenticated, signUpUser }) {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.session.isAuthenticated,
-    errors: state.session.errors,
-    message: state.session.message,
+    authenticated: state.auth.authenticated,
+    errors: state.auth.signUp.errors,
+    message: state.auth.signUp.message,
   };
 };
 

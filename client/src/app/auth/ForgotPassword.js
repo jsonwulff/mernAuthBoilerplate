@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { resetPassword } from './sessionActions';
+import { forgotPassword } from './forgotPassword/forgotPassActions';
 import Copyright from '../common/Copyright';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
@@ -15,6 +14,7 @@ import {
   makeStyles,
   Container,
 } from '@material-ui/core/';
+import SuccessMessage from './components/SuccessMessage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,15 +36,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ResetPassword({ errors, resetPassword }) {
+function ForgotPassword({ errors, forgotPassword, message }) {
   const classes = useStyles();
-  const { token } = useParams();
 
   const [values, setValues] = useState({
-    password: '',
-    password2: '',
-    token,
+    email: '',
   });
+
+  useEffect(() => {
+    if (message) {
+      clearValues();
+    }
+  }, [message]);
+
+  const clearValues = () => {
+    setValues({
+      email: '',
+    });
+  };
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +62,7 @@ function ResetPassword({ errors, resetPassword }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    resetPassword(values);
+    forgotPassword(values);
   };
 
   return (
@@ -63,36 +72,22 @@ function ResetPassword({ errors, resetPassword }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Reset password
+          Forgot password
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                error={errors.password ? true : false}
-                helperText={errors.password ? errors.password : false}
+                value={values.email}
+                error={errors.email ? true : false}
+                helperText={errors.email ? errors.email : false}
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={onChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={errors.password2 ? true : false}
-                helperText={errors.password2 ? errors.password2 : false}
-                variant="outlined"
-                required
-                fullWidth
-                name="password2"
-                label="Repeat Password"
-                type="password"
-                id="password2"
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
                 onChange={onChange}
               />
             </Grid>
@@ -114,6 +109,7 @@ function ResetPassword({ errors, resetPassword }) {
             </Grid>
           </Grid>
         </form>
+        {message ? <SuccessMessage message={message} /> : null}
       </div>
       <Box mt={5}>
         <Copyright />
@@ -124,14 +120,15 @@ function ResetPassword({ errors, resetPassword }) {
 
 const mapStateToProps = (state) => {
   return {
-    errors: state.session.errors,
+    errors: state.auth.forgotPassword.errors,
+    message: state.auth.forgotPassword.message,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    resetPassword: (resetData) => dispatch(resetPassword(resetData)),
+    forgotPassword: (email) => dispatch(forgotPassword(email)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
