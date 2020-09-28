@@ -3,15 +3,17 @@
 ## To Do
 
 - [x] Create redirects and success messages on signup flow
-- [ ] Refactor code -> change session to auth, destructure functions eg header and reducer/action/types, camelcase, email to tamplates, remove console logs
-- [ ] Reset password: check time for password recreation with the token iat
-- [ ] Create rotues for react app
-- [ ] Add opportunity to make email reconfirmation
+- [x] Refactor code -> change session to auth, destructure functions eg header and reducer/action/types, camelcase
+- [x] email to tamplates, remove console logs
+- [x] Compound login / log out button
+- [x] Reset password: check time for password recreation with the token iat
+- [x] Create rotues for react app
+- [x] Add opportunity to make email reconfirmation
 - [ ] Put the models in a table (In this README)
-- [ ] Redirect or change text upon succesfull signup
-- [ ] Consider refactoring components with mapStateToProps and mapDispatchToProps eg. `function Login({ login, loginUser })` should be `function Login({ props, dispatch })`
+- [x] Redirect or change text upon succesfull signup
+- [x] Consider refactoring components with mapStateToProps and mapDispatchToProps eg. `function Login({ login, loginUser })` should be `function Login({ props, dispatch })`
 - [ ] Consider add expiration to auth cookie
-- [ ] Consider moving header buttons into components folder
+- [x] Consider moving header buttons into components folder
 - [ ] [Consider making tests for the API](https://rahmanfadhil.com/test-express-with-supertest/)
 
 ### Authentication flow
